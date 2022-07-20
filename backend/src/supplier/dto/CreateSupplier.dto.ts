@@ -13,5 +13,5 @@ export class CreateSupplierDTO{
 
 
     @IsNotEmpty()
-    country:Country
+    supplierCountry:Country
 }

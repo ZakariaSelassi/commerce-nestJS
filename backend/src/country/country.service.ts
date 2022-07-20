@@ -30,13 +30,11 @@ export class CountryService {
         const { countryName } = createCountryDTO;
 
         const countryExist = await this.CountryModel.findOne({ countryName }).exec();
-
+        console.log(countryExist);
         if (countryExist)
             throw new HttpException('Country already exist', HttpStatus.BAD_REQUEST);
     
-        const country = new this.CountryModel({
-            countryName,
-        });
+        const country = await this.CountryModel.create(createCountryDTO);
         return await country.save();
     }
 

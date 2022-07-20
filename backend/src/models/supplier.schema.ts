@@ -14,7 +14,7 @@ export class Supplier {
     supplierPhone: string;
 
     @Prop({type:mongoose.Schema.Types.ObjectId, ref:'Country',required:true})
-    country:Country;
+    countryName:Country;
     
 }
 
