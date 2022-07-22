@@ -17,7 +17,6 @@ export class SupplierController {
 
     @Post('')
     async create(@Body() createSupplierDTO:any):Promise<any>{
-        console.log("controller = ", createSupplierDTO)
         return await this.supplierService.create(createSupplierDTO);
     }
 

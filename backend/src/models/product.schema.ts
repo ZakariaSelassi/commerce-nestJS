@@ -20,9 +20,6 @@ export class Product {
     @Prop({required: true})
     stock: number;
 
-    @Prop({required: true})
-    amount: number;
-
     @Prop({type:mongoose.Schema.Types.ObjectId, ref:'Category',required:true})
     category:Category;
 

@@ -8,6 +8,9 @@ import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
 import { CountryModule } from './country/country.module';
 import { SupplierModule } from './supplier/supplier.module';
+import { CategoryModule } from './category/category.module';
+import { ProductsModule } from './products/products.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -18,7 +21,10 @@ import { SupplierModule } from './supplier/supplier.module';
   RolesModule,
   AuthModule,
   CountryModule,
-  SupplierModule],
+  SupplierModule,
+  CategoryModule,
+  ProductsModule,
+  OrderModule],
   controllers: [AppController],
   providers: [],
 })
