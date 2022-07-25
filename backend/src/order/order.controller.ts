@@ -2,6 +2,7 @@ import { Controller, Get, UseGuards,Req, Post, Param, Body } from '@nestjs/commo
 import { Request } from 'express';
 
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Order } from 'src/models/order.schema';
 import { Product } from 'src/models/product.schema';
 import { Users } from 'src/models/users.schema';
 import { CreateOrderDTO } from './dto/CreateOrder.dto';
@@ -13,21 +14,17 @@ export class OrderController {
 
     @UseGuards(JwtAuthGuard)
     @Get('/:id')
-    async findClientOrders(id: string, @Req() request:Request  ): Promise<any> {
-        console.log(request.user);
-        
+    async findClientOrders(@Param('id') id:string):Promise<Order[]> {
+
         return this.orderService.findAllClientOrders(id);
     }
-
 
     @UseGuards(JwtAuthGuard)
     @Post('/add/:idProduct')
     async createOrder(
-        @Param('id') id:string,
+        @Param('idProduct') id:string,
         @Body() orderDto:CreateOrderDTO,
-        @Req() request:Users  ): Promise<any> {
-        
-        console.log("product : ", id) 
-        return this.orderService.createOrder(id, orderDto, request);
+        @Req() request:Request  ): Promise<any> {
+        return this.orderService.createOrder(id, orderDto, request.user);
     }
 }
