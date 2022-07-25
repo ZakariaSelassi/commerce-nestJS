@@ -1,8 +1,31 @@
-import React from 'react'
-
+import React,{useEffect, useState} from 'react'
+import { useDispatch,useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { logginUser } from '../features/slices/userSlice'
 const Login = () => {
+    const [formData, setFormData] = useState({
+        username: '',
+        password: ''
+    })
+    const dispatch = useDispatch()
+    const { username, password } = formData
+    const navigate = useNavigate()
+    const {user,loading,error} = useSelector(state => state.user)
+    
+
+    const handleOnChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
     const handleSubmit = (e) => {
+        e.preventDefault();
+        const user = {  
+          username,
+            password
+        }
+      if(user){
+        dispatch(logginUser(user)).then(
+          () => navigate('/')
+        )
+      }
 
     }
   return (
@@ -10,9 +33,9 @@ const Login = () => {
         <h1>Login</h1>
         <form onSubmit={handleSubmit}>
         
-            <div> <input type="email" placeholder="email" name="email"/></div>
-            <div><input type="password" placeholder="password" name="passowrd" /></div>
-            <button className='btn btn-primary' type='submit'>SignIn</button>
+            <div> <input type="email" placeholder="email" name="username" value={username} onChange={handleOnChange}/></div>
+            <div><input type="password" placeholder="password" name="password" value={password} onChange={handleOnChange} /></div>
+            <button className='btn btn-primary'>SignIn</button>
         </form>
     </section>
   )
