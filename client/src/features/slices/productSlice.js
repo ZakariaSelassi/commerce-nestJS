@@ -16,8 +16,9 @@ export const allProducts = createAsyncThunk('/products',async(thunkAPI) => {
     }
 })
 
-export const getProductById = createAsyncThunk('/products/:id',async(id,thunkAPI) => {
+export const getProductById = createAsyncThunk('/products/single',async(id,thunkAPI) => {
     try{
+        console.log("slice: ", id)
         return await productService.getProductById(id)
     }catch(error){
         thunkAPI.rejectWithValue(error)

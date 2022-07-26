@@ -6,8 +6,8 @@ const Navbar = ({user}) => {
     <header>
         <nav className="navbar">
             <ul>
-            <li><NavLink className="active" to="/">Item</NavLink></li>
-            <li><a href="#contact">Shopping card</a></li>
+            <li><NavLink  to="/">Item</NavLink></li>
+            <li><NavLink to="/shoppingcart">Shopping card</NavLink></li>
             <li><NavLink to="/profile">Profile</NavLink></li>
             <li style={{float:'right'}}><a href="#">{user ? user.firstname : ''}</a></li>
             </ul>

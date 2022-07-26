@@ -9,17 +9,18 @@ const getClientOrders = async () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`
         }
     };
-    const response = await axios.get(`${API_URL}/orders`, config);
+    const response = await axios.get(`${API_URL}/order`, config);
     return response.data;
 }
 
 const createOrder = async (order) => {
+    const {id,quantity} = order;
     const config = {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
         }
     };
-    const response = await axios.post(`${API_URL}/orders`, order, config);
+    const response = await axios.post(`${API_URL}/order/add/${id}`, {quantity}, config);
     return response.data;
 }
 

@@ -7,10 +7,13 @@ import SearchBar from '../components/common/SearchBar'
 const Home = () => {
   const dispatch = useDispatch()
   const {products} = useSelector(state => state.product)
+  
   useEffect(() => {
     dispatch(allProducts())
  
   },[dispatch])
+
+
 
   return (
     <>
