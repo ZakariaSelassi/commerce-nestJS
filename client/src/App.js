@@ -8,6 +8,7 @@ import { getUserProfile } from './features/slices/userSlice'
 import Navbar from './components/Navbar'
 import {useNavigate} from 'react-router-dom'
 import Profile from './layout/customers/Profile';
+import UpdateProfileDetails from './components/user/UpdateProfileDetails';
 const App = () => {
 
   const dispatch = useDispatch()
@@ -21,7 +22,7 @@ const App = () => {
       navigate('/login')
     }
     
-  } ,[user])
+  } ,[dispatch])
 
 
   return (
@@ -30,7 +31,8 @@ const App = () => {
     <Navbar user={user}/>
       <Routes>
         <Route path="/" element={<Home/>} />
-        <Route path='/profile' element={<Profile user={user}/>} />
+        <Route path='/profile' element={<Profile user={user}/>}/>
+        <Route path='/profile/:id' element={<UpdateProfileDetails/>} />
         <Route path='/register' element={<Register/>} />
         <Route path='/login' element={<Login/>} />
       </Routes>
