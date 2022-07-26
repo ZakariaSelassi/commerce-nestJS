@@ -7,6 +7,7 @@ import { useDispatch,useSelector } from 'react-redux'
 import { getUserProfile } from './features/slices/userSlice'
 import Navbar from './components/Navbar'
 import {useNavigate} from 'react-router-dom'
+import Profile from './layout/customers/Profile';
 const App = () => {
 
   const dispatch = useDispatch()
@@ -25,12 +26,16 @@ const App = () => {
 
   return (
    <>
+   <main>
     <Navbar user={user}/>
-    <Routes>
-      <Route path="/" element={<Home/>} />
-      <Route path='/register' element={<Register/>} />
-      <Route path='/login' element={<Login/>} />
-    </Routes>
+      <Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path='/profile' element={<Profile user={user}/>} />
+        <Route path='/register' element={<Register/>} />
+        <Route path='/login' element={<Login/>} />
+      </Routes>
+   </main>
+   
    </>
   )
 }
