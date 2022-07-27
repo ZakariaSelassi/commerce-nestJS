@@ -3,13 +3,14 @@ import axios from "axios";
 const API_URL = "http://localhost:5001/api";
 
 
-const getClientOrders = async () => {
+const getClientOrders = async (id) => {
     const config = {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
         }
     };
-    const response = await axios.get(`${API_URL}/order`, config);
+    console.log("service: ", id)
+    const response = await axios.get(`${API_URL}/order/${id}`, config);
     return response.data;
 }
 

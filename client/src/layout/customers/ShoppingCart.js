@@ -1,11 +1,49 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch ,useSelector} from 'react-redux'
-import {getProductById} from '../../features/slices/productSlice'
+import {addOrder} from '../../features/slices/orderSlice'
 const ShoppingCart = () => {
 
- const productStorage = JSON.parse(localStorage.getItem('shoppingCart'))
+    const [productStorage,setProductStorage] = useState(JSON.parse(localStorage.getItem('shoppingCart'))) 
+    const totalPrice = productStorage ? productStorage.reduce((total,item) => total + (item.price * item.quantity),0) : ''
+    const dispatch = useDispatch()
 
 
+    useEffect(() => {
+        if(productStorage){
+            const now = new Date()
+            // compare the expiry time of the item with the current time
+            if (now.getTime() > productStorage.expirationTime) {
+                // If the item is expired, delete the item from storage
+                // and return null
+                localStorage.removeItem('shoppingCart')
+                return null
+            }
+    
+        }
+      
+    }) 
+
+   const handleOrder = async (num) => {
+        const data = {
+            id: productStorage[num].id,
+            quantity: productStorage[num].quantity
+        }
+        if (data) {
+            dispatch(addOrder(data))
+            // remove the item from the localStorage and update the shoppingCart
+            const productStorageToArray = JSON.parse(localStorage.getItem('shoppingCart'))
+            /* const item = productStorageToArray.find(item => item.id === productStorage[num].id) */
+            productStorageToArray.splice(num,1)
+            setProductStorage(localStorage.setItem('shoppingCart',JSON.stringify(productStorageToArray)))
+                
+        }else{
+            return <div>Error in your order </div>
+        }
+     
+   }
+   if(!productStorage){
+    return <div>No items in your cart</div>
+    }
   return (
     <div>
         <h2 className='shopping-cart-title'>Shopping Cart</h2>
@@ -17,23 +55,25 @@ const ShoppingCart = () => {
                         <th>Quantity</th>
                         <th>Price</th>
                         <th>Total</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                 {
-                  productStorage ?  productStorage.map((item,index) => {
+                  productStorage.map((item,index) => {
                         return <tr key={item.id} style={{borderBottom:'1px solid black'}}>
                             <td>{item.name}</td>
                             <td>{item.quantity}</td>
                             <td>{item.price} $ </td>
                             <td>{item.quantity * item.price} $</td>
+                            <td><button className='btn btn-primary' style={{width:'50%',borderRadius:'20px'}} onClick={() => handleOrder(index)}>Order</button></td>
                         </tr>
                     })
-                    :
-                    "No products in your cart"
+                  
                 }
                 </tbody>
             </table>
+            <p style={{padding:'1rem'}}>Total : <span style={{fontWeight:'bolder'}}>{totalPrice} $</span></p>
 
        
     </div>

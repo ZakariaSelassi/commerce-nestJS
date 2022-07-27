@@ -8,7 +8,7 @@ const Profile = ({user}) => {
     <>
       <section className='section-profile'>
       <ProfileDetails user={user}/>
-      <OrderDetails/>
+      <OrderDetails user={user}/>
    
       </section>
     </>

@@ -1,6 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux/es/exports'
+import {allClientOrders} from '../../features/slices/orderSlice'
+const OrderDetails = ({user}) => {
+    const {order} = useSelector(state => state.order)
+    const dispatch = useDispatch()
+    console.log(user.id)
+    useEffect(() => {
+        dispatch(allClientOrders(user.id))
+        /* console.log(order) */
 
-const OrderDetails = () => {
+    },[dispatch]) 
+    console.log(order)
+    if(!order){
+        return <div>Nothing order yet!</div>
+    }
   return (
     <section className='section-profile-details'>
         <h2>Order Details</h2>
@@ -17,14 +30,22 @@ const OrderDetails = () => {
             </thead>
             <tbody>
                 <tr>
-                    <td className='table-item'>1</td>
-                    <td className='table-item'>2020-01-01</td>
-                    <td className='table-item'>$100</td>
-                    <td className='table-item'>Pending</td>
-                    <td className='table-item'>
-                      
-                        Cancel
-                    </td>
+                 {/*   {
+                          order.map(order => {
+                                return (
+                                    <tr key={order.id}>
+                                        <td>{order.id}</td>
+                                        <td>{order.date}</td>
+                                        <td>{order.total}</td>
+                                        <td>{order.status}</td>
+                                        <td>
+                                            <button className='btn-edit'>Edit</button>
+                                            <button className='btn-delete'>Delete</button>
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                   } */}
                 </tr>
             </tbody>
         </table>

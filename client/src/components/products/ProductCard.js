@@ -7,38 +7,50 @@ const ProductCard = ({product}) => {
   const [data,setData] = useState({
     id: product._id,
     quantity: 0,
+   /*  expirationTime: Date.now() + ((3600*100)*1) */
   })
-
-  const [listItem,setListItem] = useState([])
- /*  const {id,quantity} = data */
 
   const handleAdd =(e) => {
     e.preventDefault()
-    
-    const productStorage = JSON.parse(localStorage.getItem('shoppingCart'))
+    // Getting the item from localStorage , if existing item then check his id to update de quantity selected before with the new quantity 
+    // else create newItem and add it to the existing item in the localStorage
+    // if productStorage doesn't exist then create the newProduct and setLocalStorage
+    const productStorage = localStorage.getItem('shoppingCart')    
     if(productStorage){
-        // if product already exist in local storage then add quantity to existing item
-      
-        const item = productStorage.find(item => item.id === product._id)
-      /*   console.log(item.quantity) */
-        if(item){
-            item.quantity = Number(item.quantity)  + Number(data.quantity); 
-            localStorage.setItem('shoppingCart',JSON.stringify(productStorage))
-        }
-    }else{
-        // if product not exist in local storage then create new item
+      const productStorageToArray = JSON.parse(productStorage)
+      const item = productStorageToArray.find(item => item.id === product._id)
+      if(item){
+        item.quantity = Number(item.quantity) + Number(data.quantity)
+        // add an 1hour to the existing expireTime
+        item.expirationTime = Date.now() + ((3600*100)*1)
+        localStorage.setItem('shoppingCart',JSON.stringify(productStorageToArray))
+      }else{
         const newItem = {
-            id: product._id,
-            quantity: data.quantity,
-            name:product.productName,
-            price:product.productPrice
+          id: product._id,
+          name: product.productName,
+          price: product.productPrice,
+          quantity: data.quantity,  
+          expirationTime: Date.now() + ((3600*100)*1) 
+
         }
-        const newList = [...listItem,newItem]
-        localStorage.setItem('shoppingCart',JSON.stringify(newList))
+        productStorageToArray.push(newItem)
+        localStorage.setItem('shoppingCart',JSON.stringify(productStorageToArray))
+      }
+    }else{
+
+      const newProduct = {
+        id: product._id,
+        name: product.productName,
+        price: product.productPrice,
+        quantity: data.quantity,
+        expirationTime: Date.now() + ((3600*100)*1)
+      }
+      const productStorageJson = [newProduct]
+      localStorage.setItem('shoppingCart',JSON.stringify(productStorageJson))
+
     }
-   
-   /*  dispatch(addOrder(data)) */
   }
+    
   const handleChange = (e) => {
     setData({
       ...data,
