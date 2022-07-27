@@ -8,9 +8,9 @@ const ShoppingCart = () => {
 
   return (
     <div>
-        <h1>Shopping Cart</h1>
-        <div>
-            <table className="table">
+        <h2 className='shopping-cart-title'>Shopping Cart</h2>
+        
+            <table className="table shopping-list">
                 <thead>
                     <tr>
                         <th>Product</th>
@@ -21,19 +21,21 @@ const ShoppingCart = () => {
                 </thead>
                 <tbody>
                 {
-                    productStorage.map(item => {
-                        return <tr>
+                  productStorage ?  productStorage.map((item,index) => {
+                        return <tr key={item.id} style={{borderBottom:'1px solid black'}}>
                             <td>{item.name}</td>
                             <td>{item.quantity}</td>
                             <td>{item.price} $ </td>
                             <td>{item.quantity * item.price} $</td>
                         </tr>
                     })
+                    :
+                    "No products in your cart"
                 }
                 </tbody>
             </table>
 
-        </div>
+       
     </div>
   )
 }

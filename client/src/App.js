@@ -10,6 +10,29 @@ import {useNavigate} from 'react-router-dom'
 import Profile from './layout/customers/Profile';
 import UpdateProfileDetails from './components/user/UpdateProfileDetails';
 import ShoppingCart from './layout/customers/ShoppingCart';
+import { Navigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode'
+
+const AuthProvider = ({children}) => {
+  const user = localStorage.getItem('token')
+
+  if(!user){
+    return <Navigate to='/login'/>
+  }
+ 
+  const decodedToken = jwt_decode(user);
+  const isExpired = decodedToken.exp < Date.now() / 1000;
+  if(isExpired){
+    localStorage.removeItem('token')
+    window.location.reload()
+  }
+
+  return user ? children : <Navigate to='/login' />
+}
+
+
+
+
 const App = () => {
 
   const dispatch = useDispatch()
@@ -24,7 +47,7 @@ const App = () => {
     }
     
   } ,[dispatch])
-
+ /*  console.log("token", user) */
 
   return (
    <>
@@ -32,7 +55,12 @@ const App = () => {
     <Navbar user={user}/>
       <Routes>
         <Route path="/" element={<Home/>} />
-        <Route path='/profile' element={<Profile user={user}/>}/>
+        
+        <Route path='/profile' element={
+          <AuthProvider>
+            <Profile user={user}/>
+          </AuthProvider>
+        }/>
         <Route path='/profile/:id' element={<UpdateProfileDetails/>} />
         <Route path='shoppingcart' element={<ShoppingCart/>}/>
         <Route path='/register' element={<Register/>} />

@@ -7,7 +7,7 @@ const ProfileDetails = ({user}) => {
     const toUpdateProfilePage = () => {
          navigate(`/profile/${user.id}`)
     }
-
+    
   return (
     <section className='section-profile-details'>
     <h1>User Profile</h1>
