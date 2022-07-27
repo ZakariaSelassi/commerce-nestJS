@@ -8,9 +8,9 @@ const initialState = {
     loading:false,
 }
 
-export const allClientOrders = createAsyncThunk('/orders/all',async(id,thunkAPI) => {
+export const allClientOrders = createAsyncThunk('/orders/all',async(thunkAPI) => {
     try{
-        return await orderService.getClientOrders(id)
+        return await orderService.getClientOrders()
     }catch(error){
         thunkAPI.rejectWithValue(error)
     }

@@ -5,6 +5,7 @@ import Login from './layout/Login'
 import Home from './layout/Home';
 import { useDispatch,useSelector } from 'react-redux'
 import { getUserProfile } from './features/slices/userSlice'
+import { allClientOrders } from './features/slices/orderSlice';
 import Navbar from './components/Navbar'
 import {useNavigate} from 'react-router-dom'
 import Profile from './layout/customers/Profile';
@@ -42,6 +43,7 @@ const App = () => {
   useEffect(() => {
     if(user){
       dispatch(getUserProfile())
+      dispatch(allClientOrders(user.id))
     }else{
       navigate('/login')
     }

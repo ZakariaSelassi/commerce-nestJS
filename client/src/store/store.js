@@ -1,15 +1,29 @@
 import { configureStore } from "@reduxjs/toolkit";
+import storage from 'redux-persist/lib/storage'
+import {combineReducers} from "redux"; 
+import { persistReducer } from 'redux-persist'
+import thunk from 'redux-thunk'
 
 import userReducer from '../features/slices/userSlice'
 import productReducer from '../features/slices/productSlice'
 import orderReducer from '../features/slices/orderSlice'
+
+const reducers = combineReducers({
+    user: userReducer,
+    product: productReducer,
+    order: orderReducer
+})
+
+const persistConfig = {
+    key: 'root',
+    storage
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+
 const store = configureStore({
-    reducer: {
-        // reducer here
-        user:userReducer,
-        product:productReducer,
-        order:orderReducer,
-    }
+    reducer: persistedReducer,
+    middleware: [thunk]
 })
 
 export default store;
