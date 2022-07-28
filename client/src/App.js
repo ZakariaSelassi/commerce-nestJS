@@ -9,11 +9,12 @@ import { allClientOrders } from './features/slices/orderSlice';
 import Navbar from './components/Navbar'
 import {useNavigate} from 'react-router-dom'
 import Profile from './layout/customers/Profile';
-import UpdateProfileDetails from './components/user/UpdateProfileDetails';
 import ShoppingCart from './layout/customers/ShoppingCart';
 import { Navigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode'
-
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'; 
+import UpdateAddress from './components/user/UpdateAddress';
 const AuthProvider = ({children}) => {
   const user = localStorage.getItem('token')
 
@@ -38,36 +39,50 @@ const App = () => {
 
   const dispatch = useDispatch()
 
-  const {user,loading,error} = useSelector(state => state.user)
+  const {user} = useSelector(state => state.user)
   const navigate = useNavigate()
   useEffect(() => {
     if(user){
       dispatch(getUserProfile())
       dispatch(allClientOrders(user.id))
-    }else{
+    }
+    if(!user){
       navigate('/login')
     }
-    
   } ,[dispatch])
  
-
+  
   return (
    <>
    <main>
     <Navbar user={user}/>
       <Routes>
         <Route path="/" element={<Home/>} />
-        
-        <Route path='/profile' element={
-          <AuthProvider>
-            <Profile user={user}/>
-          </AuthProvider>
-        }/>
-        <Route path='/profile/:id' element={<UpdateProfileDetails/>} />
-        <Route path='shoppingcart' element={<ShoppingCart/>}/>
-        <Route path='/register' element={<Register/>} />
-        <Route path='/login' element={<Login/>} />
+        {
+          user ? <>
+
+                 <Route path='/profile' element={
+                  <AuthProvider>
+                    <Profile user={user}/>
+                  </AuthProvider>
+                }/>
+                <Route path='shoppingcart' element={<ShoppingCart/>}/>
+                <Route path='/update-address' element={<AuthProvider>
+                    <UpdateAddress user={user}/>
+                </AuthProvider>}/>
+                <Route path='/register' element={<Register/>} />
+                <Route path='/login' element={<Login/>} />
+          </> : <>
+                <Route path='/register' element={<Register/>}/>
+                <Route path='/login' element={<Login/>}/>
+          </>
+                
+        }
+ 
+
+       
       </Routes>
+      <ToastContainer/>
    </main>
    
    </>

@@ -1,12 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useDispatch ,useSelector} from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch,useSelector} from 'react-redux'
 import {addOrder} from '../../features/slices/orderSlice'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 const ShoppingCart = () => {
 
+    const {user} = useSelector(state => state.user)
+    const navigate = useNavigate()
     const [productStorage,setProductStorage] = useState(JSON.parse(localStorage.getItem('shoppingCart'))) 
     const totalPrice = productStorage ? productStorage.reduce((total,item) => total + (item.price * item.quantity),0) : ''
     const dispatch = useDispatch()
-
 
     useEffect(() => {
         if(productStorage){
@@ -18,9 +21,7 @@ const ShoppingCart = () => {
                 localStorage.removeItem('shoppingCart')
                 return null
             }
-    
         }
-      
     }) 
 
    const handleOrder = async (num) => {
@@ -29,15 +30,21 @@ const ShoppingCart = () => {
             quantity: productStorage[num].quantity
         }
         if (data) {
-            dispatch(addOrder(data))
-            // remove the item from the localStorage and update the shoppingCart
-            const productStorageToArray = JSON.parse(localStorage.getItem('shoppingCart'))
-            /* const item = productStorageToArray.find(item => item.id === productStorage[num].id) */
-            productStorageToArray.splice(num,1)
-            setProductStorage(localStorage.setItem('shoppingCart',JSON.stringify(productStorageToArray)))
-                
+
+            if(user.address){
+                dispatch(addOrder(data))
+                // remove the item from the localStorage and update the shoppingCart
+                const productStorageToArray = JSON.parse(localStorage.getItem('shoppingCart'))
+                /* const item = productStorageToArray.find(item => item.id === productStorage[num].id) */
+                productStorageToArray.splice(num,1)
+                setProductStorage(localStorage.setItem('shoppingCart',JSON.stringify(productStorageToArray)))
+                toast.success('Order has been registered ! ')
+            }else{
+                navigate('/profile')
+            }
+           
         }else{
-            return <div>Error in your order </div>
+            toast.error('Something went wrong , no order registered! ')
         }
      
    }

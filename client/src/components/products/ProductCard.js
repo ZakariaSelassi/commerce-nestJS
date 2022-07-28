@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { addOrder} from "../../features/slices/orderSlice"
+import { toast } from 'react-toastify';
 const ProductCard = ({product}) => {
 
-  const dispatch = useDispatch()
   const [data,setData] = useState({
     id: product._id,
     quantity: 0,
@@ -24,6 +22,7 @@ const ProductCard = ({product}) => {
         // add an 1hour to the existing expireTime
         item.expirationTime = Date.now() + ((3600*100)*1)
         localStorage.setItem('shoppingCart',JSON.stringify(productStorageToArray))
+       
       }else{
         const newItem = {
           id: product._id,
@@ -49,6 +48,8 @@ const ProductCard = ({product}) => {
       localStorage.setItem('shoppingCart',JSON.stringify(productStorageJson))
 
     }
+
+    toast.success("Shopping cart has been update")
   }
     
   const handleChange = (e) => {

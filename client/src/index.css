@@ -87,6 +87,8 @@ li a:hover:not(.active) {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1rem;
+
 }
 .section-profile{
   display: flex;

@@ -10,7 +10,6 @@ const getClientOrders = async () => {
         }
     };
     const response = await axios.get(`${API_URL}/order`, config);
-    console.log("response : ", response.data)
     return response.data;
 }
 

@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API_URL =  'http://localhost:5001/api';
 const register = async (userData) => {
-    console.log(userData)
     const response = await axios.post(`${API_URL}/users/register`,userData)
     return response.data
 }
@@ -25,10 +24,28 @@ const getUserProfile = async () => {
     })
     return response.data
 }
+const addUserAddress = async (dataAddress) => {
+    const {
+        id,
+        street,
+        city,
+        zip,
+        country,
+    } = dataAddress
+
+     const token = localStorage.getItem('token')
+    const response = await axios.patch(`${API_URL}/users/update/${id}`,{zip,street,city,country},{
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+    })
+    return response.data
+}
 const userService = {
     register,
     login,
-    getUserProfile
+    getUserProfile,
+    addUserAddress
 }
 
 export default userService;

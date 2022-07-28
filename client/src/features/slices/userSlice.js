@@ -31,7 +31,13 @@ export const getUserProfile = createAsyncThunk('/profile',async(thunkAPI) => {
         thunkAPI.rejectWithValue(error)
     }
 })
-
+export const addUserAddress = createAsyncThunk('/update',async(data,thunkAPI) => {
+     try{
+        return await userService.addUserAddress(data)
+    }catch(error){
+        thunkAPI.rejectWithValue(error)
+    }
+})
 export const userSlice = createSlice({
     name:'user',
     initialState,
@@ -69,6 +75,18 @@ export const userSlice = createSlice({
                 state.user = action.payload 
             })
             .addCase(getUserProfile.rejected, (state,action) => {
+                state.loading = false;
+                state.user = null;
+                state.error = action.payload
+            })
+            .addCase(addUserAddress.pending,(state) => {
+                state.loading = true
+            })
+            .addCase(addUserAddress.fulfilled,(state,action) => {
+                state.loading = false;
+                state.user = action.payload 
+            })
+            .addCase(addUserAddress.rejected, (state,action) => {
                 state.loading = false;
                 state.user = null;
                 state.error = action.payload
