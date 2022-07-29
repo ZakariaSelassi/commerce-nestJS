@@ -10,7 +10,6 @@ const OrderDetails = () => {
         if(user){
             dispatch(allClientOrders())
         }
-        console.log(order)
 
     },[dispatch]) 
     if(!order){

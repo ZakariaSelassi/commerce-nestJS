@@ -46,10 +46,10 @@ const App = () => {
       dispatch(getUserProfile())
       dispatch(allClientOrders(user.id))
     }
-    if(!user){
+/*     if(!user){
       navigate('/login')
-    }
-  } ,[dispatch])
+    } */
+  } ,[dispatch,navigate])
  
   
   return (

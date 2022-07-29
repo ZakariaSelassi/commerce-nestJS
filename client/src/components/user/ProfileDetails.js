@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useDispatch } from 'react-redux'
@@ -7,6 +7,8 @@ const ProfileDetails = ({user}) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+
+
     const toUpdateProfilePage = () => {
         // TODO: navigate to update profile page
     }
@@ -14,7 +16,6 @@ const ProfileDetails = ({user}) => {
     const toUpdateAddressPage = () => {
         navigate('/update-address')
     }
-    
   return (
     <section className='section-profile-details'>
         <h1>User Profile</h1>
