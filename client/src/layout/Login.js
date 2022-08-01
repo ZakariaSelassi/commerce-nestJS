@@ -1,6 +1,6 @@
 import React,{ useState} from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, NavLink, useNavigate } from 'react-router-dom'
 import { logginUser } from '../features/slices/userSlice'
 const Login = () => {
 
@@ -30,8 +30,8 @@ const Login = () => {
   return (
     <section className='section-login'>
         <h1>Login</h1>
+        <p>No account yet ? <NavLink to="/register">SignUp</NavLink></p>
         <form onSubmit={handleSubmit}>
-        
             <div> <input type="email" placeholder="email" name="username" value={username} onChange={handleOnChange}/></div>
             <div><input type="password" placeholder="password" name="password" value={password} onChange={handleOnChange} /></div>
             <button className='btn btn-primary'>SignIn</button>

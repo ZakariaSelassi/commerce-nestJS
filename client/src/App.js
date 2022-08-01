@@ -1,20 +1,29 @@
-import React,{useEffect} from 'react'
+import React,{lazy, Suspense, useEffect} from 'react'
 import  {Route, Routes} from 'react-router-dom';
-import Register from './layout/Register';
-import Login from './layout/Login'
-import Home from './layout/Home';
 import { useDispatch,useSelector } from 'react-redux'
 import { getUserProfile } from './features/slices/userSlice'
 import { allClientOrders } from './features/slices/orderSlice';
-import Navbar from './components/Navbar'
 import {useNavigate} from 'react-router-dom'
-import Profile from './layout/customers/Profile';
-import ShoppingCart from './layout/customers/ShoppingCart';
 import { Navigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'; 
-import UpdateAddress from './components/user/UpdateAddress';
+
+/* import Register from './layout/Register'; */
+/* import Login from './layout/Login' */
+/* import Home from './layout/Home'; */
+/* import Navbar from './components/Navbar' */
+/* import Profile from './layout/customers/Profile';
+import ShoppingCart from './layout/customers/ShoppingCart';
+import UpdateAddress from './components/user/UpdateAddress'; */
+
+const Navbar = lazy(() => import('./components/Navbar'))
+const Login = lazy(() => import('./layout/Login'))
+const Home = lazy(() => import('./layout/Home'))
+const Register = lazy(() => import('./layout/Register'))
+const Profile = lazy(() => import('./layout/customers/Profile'))
+const ShoppingCart = lazy(() => import('./layout/customers/ShoppingCart'))
+const UpdateAddress = lazy(() => import('./components/user/UpdateAddress'))
 const AuthProvider = ({children}) => {
   const user = localStorage.getItem('token')
 
@@ -49,12 +58,14 @@ const App = () => {
 /*     if(!user){
       navigate('/login')
     } */
-  } ,[dispatch,navigate])
+  })
  
   
   return (
    <>
    <main>
+    <Suspense fallback={<div>Loading...</div>}>
+   
     <Navbar user={user}/>
       <Routes>
         <Route path="/" element={<Home/>} />
@@ -78,11 +89,10 @@ const App = () => {
           </>
                 
         }
- 
 
-       
       </Routes>
       <ToastContainer/>
+      </Suspense>
    </main>
    
    </>

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { addUserAddress } from '../../features/slices/userSlice'
 import { useNavigate } from 'react-router'
+
 const UpdateAddress = ({user}) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -26,7 +27,7 @@ const UpdateAddress = ({user}) => {
         if(data){
             dispatch(addUserAddress(data))
             toast.success('Address added successfully')
-            navigate('/profile')
+            navigate('/shoppingcart')
         }
     }
     const handleChange = (e) => {
