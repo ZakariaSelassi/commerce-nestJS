@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { registerUser } from '../features/slices/userSlice'
 import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 const Register = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [formData,setFormData] = useState({
     username:'',
     firstname:'',
@@ -26,6 +29,8 @@ const Register = () => {
     }
    if(user){
       dispatch(registerUser(user))
+      toast.success('User registered successfully')
+      navigate('/login')
     }
     // call dispatch method to reach api register methode
   }

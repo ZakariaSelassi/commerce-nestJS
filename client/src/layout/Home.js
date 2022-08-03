@@ -15,10 +15,12 @@ const Home = () => {
 
   return (
     <>
+      <div className="container">
       <h1 className='card-title'>List Items</h1>
       {
         products.map(product => <ProductCard key={product._id} product={product}/>)
       }
+      </div>
     </>
   )
 }

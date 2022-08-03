@@ -1,17 +1,24 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-
+import { NavLink,Link ,useNavigate} from 'react-router-dom'
+import { toast } from 'react-toastify'
 const Navbar = ({user}) => {
-
-
+  const navigate = useNavigate()
+  const logout = () => {
+    localStorage.removeItem('token')
+    navigate('/')
+    toast.success('You have been logged out')
+  }
   return (
     <header>
         <nav className="navbar">
             <ul>
-            <li><NavLink  to="/" >Item</NavLink></li>
-            <li><NavLink to={user ? "/shoppingcart" : "login"}>Shopping card</NavLink></li>
-            <li><NavLink to={user ? "/profile" : "/login" }>Profile</NavLink></li>
-            <li style={{float:'right'}}><NavLink to="/profile">{user ? user.firstname : ''}</NavLink> </li>
+            <li><Link  to="/" >Item</Link></li>
+            <li><Link to={user ? "/shoppingcart" : "/login"}>Shopping card</Link></li>
+            <li><Link to={user ? "/profile" :  "/login" }>Profile</Link></li>
+            <li style={{float:'right'}}><Link  to="/" onClick={logout}>Logout</Link></li>
+            <li style={{float:'right'}}>
+              <Link to={user ? "/profile" :  "/login" } >{user ? user.firstname : ''}</Link> 
+            </li>
             </ul>
         </nav>
     </header>

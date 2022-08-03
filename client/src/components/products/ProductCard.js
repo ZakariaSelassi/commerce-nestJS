@@ -65,10 +65,12 @@ const ProductCard = ({product}) => {
         <div className='card'>
             <h1 >{product.productName}</h1>
             <p >{product.productPrice} $</p>
+            <div className='card-description'>
+
             <p>{product.productDescription}</p>
+            </div>
             <p>Stock left : {product.stock}</p>
-            <input type="number" placeholder='quantity' name='quantity' value={data.quantity} onChange={handleChange} disabled={product.stock === 0 ? true : false} />
-           
+            <input type="number" min="0" placeholder='quantity' name='quantity' value={data.quantity} onChange={handleChange} disabled={product.stock === 0 ? true : false} />
             <p><button className='btn btn-primary' onClick={handleAdd} disabled={product.stock === 0 ? true : false} >
             {
               product.stock === 0 ? <span style={{color:'red'}}>Out of stock</span> :'Add to Cart'

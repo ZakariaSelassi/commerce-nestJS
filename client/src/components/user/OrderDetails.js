@@ -12,9 +12,7 @@ const OrderDetails = () => {
         }
 
     },[dispatch]) 
-/*     if(!order){
-        return <div>Nothing order yet!</div>
-    } */
+
   return (
     <section className='section-profile-details'>
         <h2>Order Details</h2>    

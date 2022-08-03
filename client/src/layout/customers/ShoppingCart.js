@@ -41,12 +41,21 @@ const ShoppingCart = () => {
                 toast.success('Order has been registered ! ')
             }else{
                 navigate('/profile')
+                toast.warn('Please add your current address ! ')
             }
            
         }else{
             toast.error('Something went wrong , no order registered! ')
         }
      
+   }
+   const handleRemove = async (num) => {
+    toast.success('Item has been removed from the shopping cart ! ')
+        const productStorageToArray = JSON.parse(localStorage.getItem('shoppingCart'))
+        /* const item = productStorageToArray.find(item => item.id === productStorage[num].id) */
+        productStorageToArray.splice(num,1)
+        setProductStorage(localStorage.setItem('shoppingCart',JSON.stringify(productStorageToArray)))
+       
    }
    if(!productStorage){
     return <div>No items in your cart</div>
@@ -73,7 +82,8 @@ const ShoppingCart = () => {
                             <td>{item.quantity}</td>
                             <td>{item.price} $ </td>
                             <td>{item.quantity * item.price} $</td>
-                            <td><button className='btn btn-primary' style={{width:'50%',borderRadius:'20px'}} onClick={() => handleOrder(index)}>Order</button></td>
+                            <td><button className='btn btn-primary' style={{width:'50%',borderRadius:'20px'}} onClick={() => handleOrder(index)}>Order</button>
+                            <button className='btn btn-primary' style={{width:'50%',borderRadius:'20px'}} onClick={() => handleRemove(index)}>Remove</button></td>
                         </tr>
                     })
                   

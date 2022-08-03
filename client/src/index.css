@@ -129,6 +129,11 @@ table{
   text-align: center;
   background-color: #f1f1f1;
 }
+/* .row{
+  border: 1px solid red;
+  width: 100%;
+  padding: 1rem
+} */
 
 .column {
   float: left;
@@ -168,3 +173,8 @@ table{
 .table-title{
   padding: 1rem;
 }
+.card-description{
+  font-size: 14px;
+}
+
+

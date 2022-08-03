@@ -9,13 +9,6 @@ import jwt_decode from 'jwt-decode'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'; 
 
-/* import Register from './layout/Register'; */
-/* import Login from './layout/Login' */
-/* import Home from './layout/Home'; */
-/* import Navbar from './components/Navbar' */
-/* import Profile from './layout/customers/Profile';
-import ShoppingCart from './layout/customers/ShoppingCart';
-import UpdateAddress from './components/user/UpdateAddress'; */
 
 const Navbar = lazy(() => import('./components/Navbar'))
 const Login = lazy(() => import('./layout/Login'))
@@ -55,10 +48,8 @@ const App = () => {
       dispatch(getUserProfile())
       dispatch(allClientOrders(user.id))
     }
-/*     if(!user){
-      navigate('/login')
-    } */
-  })
+
+  } ,[dispatch,navigate])
  
   
   return (
