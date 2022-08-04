@@ -15,10 +15,14 @@ export class OrderService {
         ){}
     
 
-        
-    async findAllClientOrders(id: string): Promise<Order[]> {
-    
-        return await this.OrderModel.find({user:id}).exec()
+    async findAll(){
+        return await this.OrderModel.find().exec();
+    }   
+    async findAllClientOrders(user:any) /* Promise<Order[]> */ {
+        const userId = user.id;
+        console.log(userId)
+        const orders = await this.OrderModel.find().where('user').equals(userId).exec();
+        return orders;
     }
 
     // create order for a specif client and change stock amount remaining
@@ -31,13 +35,15 @@ export class OrderService {
         }
         // update stock amount remaining
         product.stock = product.stock - orderDto.quantity;
+        
          await product.save();
 
+      
         // calculate price for the order (produict price * quantity)
         const totalPrice = product.productPrice * orderDto.quantity;
         // create order
          const order = await this.OrderModel.create({
-          user: user._id,
+          user: user.id,
           product: id,
           quantity: orderDto.quantity,
           status: "pending",

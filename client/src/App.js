@@ -68,7 +68,7 @@ const App = () => {
                     <Profile user={user}/>
                   </AuthProvider>
                 }/>
-                <Route path='shoppingcart' element={<ShoppingCart/>}/>
+                <Route path='/shoppingcart' element={<ShoppingCart/>}/>
                 <Route path='/update-address' element={<AuthProvider>
                     <UpdateAddress user={user}/>
                 </AuthProvider>}/>

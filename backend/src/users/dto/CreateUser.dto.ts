@@ -13,7 +13,7 @@ import {
   IsPhoneNumber,
 } from 'class-validator';
 import { Address } from 'src/models/address.schema';
-import { Roles } from 'src/models/roles.schema';
+
 export class CreateUserDTO {
   @IsNotEmpty()
   @Length(4, 15)
@@ -39,6 +39,8 @@ export class CreateUserDTO {
 
   address: Address;
 
-  @IsNotEmpty()
-  roles:Roles;
+
+  isAdmin: boolean;
+
+
 }

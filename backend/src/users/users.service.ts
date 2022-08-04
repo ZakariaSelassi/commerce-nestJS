@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateAddressDTO } from 'src/address/dto/CreateAddress.dto';
 import { Address,AddressDocument } from 'src/models/address.schema';
-import { Roles, RolesDocument } from 'src/models/roles.schema';
 import { Users, UsersDocument } from 'src/models/users.schema';
 import { encodePassword } from 'src/utils/bcrypte';
 import { CreateUserDTO } from './dto/CreateUser.dto';
@@ -14,7 +13,6 @@ import { UserEntity } from './entity/user.entity';
 export class UsersService {
   constructor(
     @InjectModel(Users.name) private UsersModel: Model<UsersDocument>,
-    @InjectModel(Roles.name) private RolesModel: Model<RolesDocument>,
     @InjectModel(Address.name) private AddressModel : Model<AddressDocument>
   ) {}
 
@@ -23,19 +21,25 @@ export class UsersService {
   }
 
   async getAllUsers(): Promise<Users[]> {
-    return await this.UsersModel.find({}).exec();
+    // get all users with plain address
+    const users = await this.UsersModel.find().exec();
+    if (!users)
+      throw new HttpException('No users found!', HttpStatus.BAD_REQUEST);
+    return users;
+
   }
 
   async getUserById(id: string): Promise<Users> {
     const user = await this.UsersModel.findById(id.toString()).exec();
-    const addressID = await this.AddressModel.findById(user.address)
     if (!user)
       throw new HttpException(
         `No user found with id : ${id}!`,
         HttpStatus.BAD_REQUEST,
       );
+   const addressID = await this.AddressModel.findById(user.address)
 
     if (user)
+    
       return new UserEntity({
         id: id,
         username: user.username,
@@ -51,22 +55,16 @@ export class UsersService {
           country: addressID.country,
           zip: addressID.zip,
         } : null,
-        roles: user.roles,
+        isAdmin: user.isAdmin
       });
     throw new Error('User not found');
   }
 
   async createUser(createUserDTO: CreateUserDTO): Promise<Users> {
-    const { email, username, roles , password} = createUserDTO;
+    const { email, username, isAdmin , password} = createUserDTO;
     const usernameExist = await this.UsersModel.exists({ username: username });
     const emailExist = await this.UsersModel.exists({ email: email });
-    const roleExist = await this.RolesModel.findOne({ roleName: roles });
 
-    if (!roleExist)
-      throw new HttpException(
-        'Role should be client, seller or admin!',
-        HttpStatus.BAD_REQUEST,
-      );
     if (usernameExist || emailExist)
       throw new HttpException(
         'Username/email Already Exist',
@@ -77,7 +75,7 @@ export class UsersService {
     const newUser = await this.UsersModel.create({
       ...createUserDTO,
       password:hashPass,
-      roles: roleExist._id,
+      isAdmin:isAdmin,
       address:null,
     });
 

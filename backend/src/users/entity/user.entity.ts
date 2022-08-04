@@ -1,6 +1,6 @@
 import { Exclude } from "class-transformer";
 import { Address } from "src/models/address.schema";
-import { Roles } from "src/models/roles.schema";
+import { Role } from "src/models/enums/role.enum";
 
 export class UserEntity {
     id: string;
@@ -15,8 +15,10 @@ export class UserEntity {
     address: Address;
 
     @Exclude()
-    roles:Roles;
-
+    isAdmin: boolean;
+    
+    
+    
     constructor(partial :Partial<UserEntity>){
         Object.assign(this,partial)
     }

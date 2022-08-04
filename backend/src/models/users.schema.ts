@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
 import { Address } from "./address.schema";
-import { Roles } from "./roles.schema";
+import { Role } from "./enums/role.enum";
 
 
 export type UsersDocument = Users & Document;
@@ -30,8 +30,9 @@ export class Users {
     @Prop({type:mongoose.Schema.Types.ObjectId, ref:'Address',required:false})
     address:Address
 
-    @Prop({type:mongoose.Schema.Types.ObjectId, ref:'Roles',required:true})
-    roles:Roles;
+    @Prop({required:true, default:false})
+    isAdmin:boolean
+
 
 }
 

@@ -7,6 +7,11 @@ const Navbar = ({user}) => {
     localStorage.removeItem('token')
     navigate('/')
     toast.success('You have been logged out')
+
+/*     setTimeout(() => {
+      window.location.reload()
+    }, 1000); */
+
   }
   return (
     <header>

@@ -9,9 +9,10 @@ export class AppController {
 
     constructor(private authService:AuthService){}
 
-    @UseGuards(LocalAuthGuard) // it's means taht the route will only invoked if the user has been validated
+    @UseGuards(LocalAuthGuard) // this mean taht the route will only be invoked if the user has been validated
     @Post('login')
     login(@Request() req):any{
+        console.log(req.user)
         return this.authService.login(req.user);
     }
 

@@ -12,19 +12,25 @@ import { OrderService } from './order.service';
 export class OrderController {
     constructor(private orderService:OrderService) {}
 
-    @UseGuards(JwtAuthGuard)
-    @Get('/:id')
-    async findClientOrders(@Param('id') id:string):Promise<Order[]> {
+/*     @Get('')
+    async getAll(){
+        return await this.orderService.findAll();
+    }
+ */
 
-        return this.orderService.findAllClientOrders(id);
+    @UseGuards(JwtAuthGuard)
+    @Get('')
+    async findClientOrders(@Req() request:Request){ 
+       
+        return this.orderService.findAllClientOrders(request.user);
     }
 
     @UseGuards(JwtAuthGuard)
     @Post('/add/:idProduct')
-    async createOrder(
-        @Param('idProduct') id:string,
+    async createOrder( @Param('idProduct') id:string, 
         @Body() orderDto:CreateOrderDTO,
         @Req() request:Request  ): Promise<any> {
+        console.log("orderDto : ", orderDto, " id : ", id)
         return this.orderService.createOrder(id, orderDto, request.user);
     }
 }

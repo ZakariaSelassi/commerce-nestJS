@@ -58,7 +58,22 @@ const ShoppingCart = () => {
        
    }
    if(!productStorage){
-    return <div>No items in your cart</div>
+    return <div> <h2 className='shopping-cart-title'>Shopping Cart</h2>
+        
+    <table className="table shopping-list">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <p style={{padding:'1rem'}}>Total : <span style={{fontWeight:'bolder'}}>{totalPrice} $</span></p></div>
     }
   return (
     <div>
